@@ -22,7 +22,25 @@ namespace FitnessTrackingSystem.Infrastructure.Data
                 .WithMany(cp=>cp.ChallengeParticipants)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Challenge>()
+                .HasOne<Category>()
+                .WithMany(c => c.Challenges)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Activity>()
+                .HasOne(a=>a.Category)
+                .WithMany(c => c.Activities)
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Activity>()
+                .HasOne<Member>()
+                .WithMany(a=>a.Activities)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Member>()
+                .HasMany(m => m.Goals);
 
             modelBuilder
                .Entity<Category>()
