@@ -3,6 +3,6 @@
     public static class CategoryDataConstants
     {
         public const int MaxCategoryNameLength = 30;
-        public const int MinCategoryNameLength = 5;
+        public const int MinCategoryNameLength = 4;
     }
 }
