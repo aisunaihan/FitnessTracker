@@ -30,17 +30,16 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         public DateTime End { get; set; }
 
         [Required]
-        public string CreatorId { get; set; } = string.Empty;
+        public int TrainerId { get; set; } 
 
-        [ForeignKey(nameof(CreatorId))]
-        public IdentityUser Creator { get; set; } = null!;
+        [ForeignKey(nameof(TrainerId))]
+        public Trainer Trainer { get; set; } = null!;
 
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
-
         public IList<ChallengeParticipant> ChallengeParticipants { get; set; } = new List<ChallengeParticipant>();
     }
 }

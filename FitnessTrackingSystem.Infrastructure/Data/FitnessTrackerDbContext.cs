@@ -29,18 +29,16 @@ namespace FitnessTrackingSystem.Infrastructure.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Activity>()
-                .HasOne(a=>a.Category)
+                .HasOne<Category>()
                 .WithMany(c => c.Activities)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Activity>()
-                .HasOne<Member>()
-                .WithMany(a=>a.Activities)
+            modelBuilder.Entity<Challenge>()
+                .HasOne(c => c.Trainer)
+                .WithMany()
+                .HasForeignKey(c => c.TrainerId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Member>()
-                .HasMany(m => m.Goals);
 
             modelBuilder
                .Entity<Category>()
@@ -93,9 +91,9 @@ namespace FitnessTrackingSystem.Infrastructure.Data
         }
         public DbSet<ChallengeParticipant> ChallengeParticipants { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
-        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Goal> Goals { get; set; }  
-        public DbSet<Member> Members { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Goal> Goals { get; set; }
     }
 }

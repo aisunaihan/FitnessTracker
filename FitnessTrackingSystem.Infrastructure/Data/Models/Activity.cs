@@ -22,10 +22,10 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         public int Duration { get; set; }
 
         [Required]
-        public int CategoryId {  get; set; }
+        public int CategoryId { get; set; }
+
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
-
         public Goal Goal { get; set; } = null!;
     }
 }

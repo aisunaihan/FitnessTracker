@@ -12,7 +12,7 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         [MaxLength(CategoryDataConstants.MaxCategoryNameLength)]
         public string Name { get; set; } = string.Empty;
 
-        public IEnumerable<Challenge> Challenges { get; set; }=new List<Challenge>();
+        public IEnumerable<Challenge> Challenges { get; set; } = new List<Challenge>();
 
         public IEnumerable<Activity> Activities { get; set; } = new List<Activity>();
     }
