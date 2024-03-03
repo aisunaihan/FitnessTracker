@@ -1,4 +1,5 @@
 ﻿using FitnessTracker.Models;
+using FitnessTrackingSystem.Core.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,9 @@ namespace FitnessTracker.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
