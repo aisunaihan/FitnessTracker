@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessTrackingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(FitnessTrackerDbContext))]
-    [Migration("20240228174102_InitialMigration")]
+    [Migration("20240303120424_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,12 +33,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId2")
                         .HasColumnType("int");
 
                     b.Property<int>("Duration")
@@ -63,8 +57,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CategoryId1");
 
                     b.HasIndex("GoalId");
 
@@ -105,36 +97,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         {
                             Id = 3,
                             Name = "FullBody Workout"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Core Training"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Cooling Down"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Strength Training"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Stretching"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "MultiSport"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Balance"
                         });
                 });
 
@@ -147,12 +109,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId2")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -177,15 +133,53 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     b.Property<int>("TrainerId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TrainerId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CategoryId1");
-
                     b.HasIndex("TrainerId");
 
+                    b.HasIndex("TrainerId1");
+
                     b.ToTable("Challenges");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Description = "The best way to build a bigger chest with a strong back",
+                            Duration = 0,
+                            End = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4697),
+                            Start = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4657),
+                            Title = "Build Your Chest",
+                            TrainerId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 2,
+                            Description = "The challenge is targeted towards women who want to build their booty muscles",
+                            Duration = 0,
+                            End = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4702),
+                            Start = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4700),
+                            Title = "Pump booty",
+                            TrainerId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Description = "This is very intense workout for your whole body",
+                            Duration = 0,
+                            End = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4705),
+                            Start = new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4704),
+                            Title = "Intense full-body workout",
+                            TrainerId = 1
+                        });
                 });
 
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.ChallengeParticipant", b =>
@@ -229,6 +223,29 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     b.ToTable("Goals");
                 });
 
+            modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Supplies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.ToTable("Supplies");
+                });
+
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Trainer", b =>
                 {
                     b.Property<int>("Id")
@@ -242,10 +259,17 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -256,6 +280,17 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Trainers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FullName = "Mariah Wellson",
+                            ImageUrl = "",
+                            PhoneNumber = "+359888888888",
+                            Rating = 10,
+                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -373,6 +408,40 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e0ce1dc1-4ee7-4da0-bffc-f1f60411060f",
+                            Email = "trainer@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "trainer@mail.com",
+                            NormalizedUserName = "trainer@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAo+PltbSBZ+W5Sv0XvaUPN+B1GJhOTMPeVWvX9O1eEd60VbTjiNzwN5nTB5COJpTg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "59ac9354-f830-48eb-8a94-91e9a378b2e7",
+                            TwoFactorEnabled = false,
+                            UserName = "trainer@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a1e229cb-6bfd-4b39-8004-1dbc8a7d52eb",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM5blk32lPIEFcV8hcNSLmXS1o2W+WXAUZF3gKsxypKLAGbdfHQCimHhhW2RS5Ye4w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5756dfb1-b527-4eff-ba2b-f1a72b2428f9",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -462,16 +531,10 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Activity", b =>
                 {
-                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", null)
+                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("Activities")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId1")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Goal", "Goal")
@@ -491,16 +554,10 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Challenge", b =>
                 {
-                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", null)
+                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("Challenges")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId1")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Trainer", "Trainer")
@@ -508,6 +565,10 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Trainer", null)
+                        .WithMany("Challenges")
+                        .HasForeignKey("TrainerId1");
 
                     b.Navigation("Category");
 
@@ -531,6 +592,13 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     b.Navigation("Challenge");
 
                     b.Navigation("Participant");
+                });
+
+            modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Supplies", b =>
+                {
+                    b.HasOne("FitnessTrackingSystem.Infrastructure.Data.Models.Activity", null)
+                        .WithMany("Supplies")
+                        .HasForeignKey("ActivityId");
                 });
 
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Trainer", b =>
@@ -595,6 +663,11 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Activity", b =>
+                {
+                    b.Navigation("Supplies");
+                });
+
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Navigation("Activities");
@@ -610,6 +683,8 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
             modelBuilder.Entity("FitnessTrackingSystem.Infrastructure.Data.Models.Trainer", b =>
                 {
                     b.Navigation("Activities");
+
+                    b.Navigation("Challenges");
                 });
 #pragma warning restore 612, 618
         }

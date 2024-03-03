@@ -24,6 +24,11 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
 
+        public string ImageUrl { get; set; } = string.Empty;
+
+        public int Rating {  get; set; }
+
+        public IEnumerable<Challenge> Challenges { get; set; } = new List<Challenge>();
         public IEnumerable<Activity> Activities { get; set; }=new List<Activity>(); 
     }
 }

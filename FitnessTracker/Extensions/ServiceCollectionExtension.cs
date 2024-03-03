@@ -14,8 +14,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<FitnessTrackerDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            {
+                options.UseSqlServer(connectionString);
+                options.EnableSensitiveDataLogging();
+            });
+
+
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

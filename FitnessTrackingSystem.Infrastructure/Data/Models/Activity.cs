@@ -27,5 +27,7 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
         public Goal Goal { get; set; } = null!;
+
+        public IEnumerable<Supplies> Supplies { get; set; } =new List<Supplies>();  
     }
 }

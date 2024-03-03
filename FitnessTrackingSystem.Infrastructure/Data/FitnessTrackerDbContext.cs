@@ -1,7 +1,13 @@
-﻿using FitnessTrackingSystem.Infrastructure.Data.Models;
+﻿using FitnessTrackingSystem.Infrastructure.Data.DataConstants;
+using FitnessTrackingSystem.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
 using System.Xml.Linq;
+using FitnessTrackingSystem.Infrastructure.Data.SeedDb;
 
 namespace FitnessTrackingSystem.Infrastructure.Data
 {
@@ -14,78 +20,24 @@ namespace FitnessTrackingSystem.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChallengeParticipant>()
-                .HasKey(cp => new { cp.ParticipantId, cp.ChallengeId });
-
-            modelBuilder.Entity<ChallengeParticipant>()
-                .HasOne(cp=>cp.Challenge)
-                .WithMany(cp=>cp.ChallengeParticipants)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Challenge>()
-                .HasOne<Category>()
-                .WithMany(c => c.Challenges)
-                .HasForeignKey(c => c.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new TrainerConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ChallengeConfiguration());
 
             modelBuilder.Entity<Activity>()
-                .HasOne<Category>()
+                .HasOne(c => c.Category)
                 .WithMany(c => c.Activities)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Challenge>()
-                .HasOne(c => c.Trainer)
-                .WithMany()
-                .HasForeignKey(c => c.TrainerId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ChallengeParticipant>()
+                .HasKey(cp => new { cp.ParticipantId, cp.ChallengeId });
 
-            modelBuilder
-               .Entity<Category>()
-               .HasData(new Category()
-               {
-                   Id = 1,
-                   Name = "UpperBody Workout"
-               },
-               new Category()
-               {
-                   Id = 2,
-                   Name = "LowerBody Workout"
-               },
-               new Category()
-               {
-                   Id = 3,
-                   Name = "FullBody Workout"
-               },
-               new Category()
-               {
-                   Id = 4,
-                   Name = "Core Training"
-               },
-               new Category{
-                   Id = 5,
-                   Name = "Cooling Down"
-               },
-               new Category()
-               {
-                   Id = 6,
-                   Name = "Strength Training"
-               },
-               new Category()
-               {
-                   Id = 7,
-                   Name = "Stretching"
-               },
-               new Category()
-               {
-                   Id = 8,
-                   Name = "MultiSport"
-               },
-               new Category()
-               {
-                   Id=9,
-                   Name="Balance"
-               });
+            modelBuilder.Entity<ChallengeParticipant>()
+                .HasOne(cp => cp.Challenge)
+                .WithMany(cp => cp.ChallengeParticipants)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -95,5 +47,8 @@ namespace FitnessTrackingSystem.Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<Supplies> Supplies { get; set; }
+
     }
 }
+

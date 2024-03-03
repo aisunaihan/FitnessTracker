@@ -190,7 +190,9 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,9 +215,7 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     Notes = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId1 = table.Column<int>(type: "int", nullable: false),
                     GoalId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId2 = table.Column<int>(type: "int", nullable: false),
                     TrainerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -227,12 +227,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Activities_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Activities_Goals_GoalId",
                         column: x => x.GoalId,
@@ -259,8 +253,7 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                     End = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TrainerId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId1 = table.Column<int>(type: "int", nullable: false),
-                    CategoryId2 = table.Column<int>(type: "int", nullable: false)
+                    TrainerId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -272,17 +265,35 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Challenges_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Challenges_Trainers_TrainerId",
                         column: x => x.TrainerId,
                         principalTable: "Trainers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Challenges_Trainers_TrainerId1",
+                        column: x => x.TrainerId1,
+                        principalTable: "Trainers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Supplies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ActivityId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Supplies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Supplies_Activities_ActivityId",
+                        column: x => x.ActivityId,
+                        principalTable: "Activities",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -310,30 +321,48 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "a1e229cb-6bfd-4b39-8004-1dbc8a7d52eb", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEM5blk32lPIEFcV8hcNSLmXS1o2W+WXAUZF3gKsxypKLAGbdfHQCimHhhW2RS5Ye4w==", null, false, "5756dfb1-b527-4eff-ba2b-f1a72b2428f9", false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "e0ce1dc1-4ee7-4da0-bffc-f1f60411060f", "trainer@mail.com", false, false, null, "trainer@mail.com", "trainer@mail.com", "AQAAAAEAACcQAAAAEAo+PltbSBZ+W5Sv0XvaUPN+B1GJhOTMPeVWvX9O1eEd60VbTjiNzwN5nTB5COJpTg==", null, false, "59ac9354-f830-48eb-8a94-91e9a378b2e7", false, "trainer@mail.com" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
                     { 1, "UpperBody Workout" },
                     { 2, "LowerBody Workout" },
-                    { 3, "FullBody Workout" },
-                    { 4, "Core Training" },
-                    { 5, "Cooling Down" },
-                    { 6, "Strength Training" },
-                    { 7, "Stretching" },
-                    { 8, "MultiSport" },
-                    { 9, "Balance" }
+                    { 3, "FullBody Workout" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Trainers",
+                columns: new[] { "Id", "FullName", "ImageUrl", "PhoneNumber", "Rating", "UserId" },
+                values: new object[] { 1, "Mariah Wellson", "", "+359888888888", 10, "dea12856-c198-4129-b3f3-b893d8395082" });
+
+            migrationBuilder.InsertData(
+                table: "Challenges",
+                columns: new[] { "Id", "CategoryId", "Description", "Duration", "End", "Start", "Title", "TrainerId", "TrainerId1" },
+                values: new object[] { 1, 1, "The best way to build a bigger chest with a strong back", 0, new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4697), new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4657), "Build Your Chest", 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Challenges",
+                columns: new[] { "Id", "CategoryId", "Description", "Duration", "End", "Start", "Title", "TrainerId", "TrainerId1" },
+                values: new object[] { 2, 2, "The challenge is targeted towards women who want to build their booty muscles", 0, new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4702), new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4700), "Pump booty", 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Challenges",
+                columns: new[] { "Id", "CategoryId", "Description", "Duration", "End", "Start", "Title", "TrainerId", "TrainerId1" },
+                values: new object[] { 3, 3, "This is very intense workout for your whole body", 0, new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4705), new DateTime(2024, 3, 3, 14, 4, 24, 155, DateTimeKind.Local).AddTicks(4704), "Intense full-body workout", 1, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_CategoryId",
                 table: "Activities",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activities_CategoryId1",
-                table: "Activities",
-                column: "CategoryId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activities_GoalId",
@@ -395,14 +424,19 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Challenges_CategoryId1",
-                table: "Challenges",
-                column: "CategoryId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Challenges_TrainerId",
                 table: "Challenges",
                 column: "TrainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Challenges_TrainerId1",
+                table: "Challenges",
+                column: "TrainerId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Supplies_ActivityId",
+                table: "Supplies",
+                column: "ActivityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trainers_UserId",
@@ -412,9 +446,6 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Activities");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -434,7 +465,7 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                 name: "ChallengeParticipants");
 
             migrationBuilder.DropTable(
-                name: "Goals");
+                name: "Supplies");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -443,7 +474,13 @@ namespace FitnessTrackingSystem.Infrastructure.Migrations
                 name: "Challenges");
 
             migrationBuilder.DropTable(
+                name: "Activities");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Goals");
 
             migrationBuilder.DropTable(
                 name: "Trainers");
