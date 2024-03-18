@@ -1,5 +1,5 @@
-﻿using FitnessTrackingSystem.Core.Contracts.Challenge;
-using FitnessTrackingSystem.Core.Services.Challenge;
+﻿using FitnessTrackingSystem.Core.Contracts;
+using FitnessTrackingSystem.Core.Services;
 using FitnessTrackingSystem.Infrastructure.Data;
 using FitnessTrackingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IChallengeService, ChallengeService>();
+            services.AddScoped<ITrainerService, TrainerService>();
 
             return services;
         }

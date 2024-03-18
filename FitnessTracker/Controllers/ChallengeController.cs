@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingSystem.Controllers
 {
-    [Authorize]
-    public class ChallengeController : Controller
+    public class ChallengeController : BaseController
     {
         [AllowAnonymous]
         [HttpGet]

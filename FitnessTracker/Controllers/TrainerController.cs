@@ -1,14 +1,20 @@
-﻿using FitnessTrackingSystem.Core.Models.Challenge;
+﻿using FitnessTrackingSystem.Core.Contracts;
+using FitnessTrackingSystem.Core.Models.Challenge;
 using FitnessTrackingSystem.Core.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackingSystem.Controllers
 {
-    [Authorize]
-    
-    public class TrainerController : Controller
+    public class TrainerController : BaseController
     {
+        private readonly ITrainerService trainerService;
+
+        public TrainerController(ITrainerService _trainerService)
+        {
+            trainerService = _trainerService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Become()
         {
