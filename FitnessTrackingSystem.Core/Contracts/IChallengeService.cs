@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitnessTrackingSystem.Core.Contracts.Challenge
+namespace FitnessTrackingSystem.Core.Contracts
 {
     public interface IChallengeService
     {

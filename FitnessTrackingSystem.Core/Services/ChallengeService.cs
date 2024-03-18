@@ -1,9 +1,9 @@
-﻿using FitnessTrackingSystem.Core.Contracts.Challenge;
+﻿using FitnessTrackingSystem.Core.Contracts;
 using FitnessTrackingSystem.Core.Models.Home;
 using FitnessTrackingSystem.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitnessTrackingSystem.Core.Services.Challenge
+namespace FitnessTrackingSystem.Core.Services
 {
     public class ChallengeService : IChallengeService
     {
@@ -18,12 +18,12 @@ namespace FitnessTrackingSystem.Core.Services.Challenge
         {
             return await repository
                 .AllReadOnly<Infrastructure.Data.Models.Challenge>()
-                .OrderByDescending(c=>c.Id)
+                .OrderByDescending(c => c.Id)
                 .Take(3)
-                .Select(c=> new ChallengeIndexServiceModel()
+                .Select(c => new ChallengeIndexServiceModel()
                 {
                     Id = c.Id,
-                    Title = c.Title,    
+                    Title = c.Title,
                     VideoUrl = c.VideoUrl,
                 })
                 .ToListAsync();
