@@ -1,4 +1,5 @@
-﻿using FitnessTrackingSystem.Core.Models.Trainer;
+﻿using FitnessTrackingSystem.Core.Models.Challenge;
+using FitnessTrackingSystem.Core.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,15 @@ namespace FitnessTrackingSystem.Controllers
         public async Task<IActionResult> Become(BecomeTrainerFormModel model)
         {
             return RedirectToAction(nameof(ChallengeController.All), "Challenge");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> AllTrainers()
+        {
+            var model = new AllTrainersQueryModel();
+
+            return View(model);
         }
     }
 }

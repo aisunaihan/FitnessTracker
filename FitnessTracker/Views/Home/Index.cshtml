@@ -13,7 +13,7 @@
         <p class="lead"> 
         @if (User.Identity.IsAuthenticated) 
         { 
-           <a asp-controller="House" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Challenge</a> 
+           <a asp-controller="Challenge" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Challenge</a> 
         } 
         </p> 
     </div> 
@@ -31,7 +31,7 @@
                 </video>
                 <div class="carousel-caption d-none d-md-block"> 
                     <h5> 
-                        <a class="btn btn-primary" asp-controller="House" asp-action="Details" asp-route-id="@challenge.Id"> 
+                        <a class="btn btn-primary" asp-controller="Challenge" asp-action="Details" asp-route-id="@challenge.Id"> 
                             @challenge.Title
                         </a> 
                     </h5> 

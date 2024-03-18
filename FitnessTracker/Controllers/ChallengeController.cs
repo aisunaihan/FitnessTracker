@@ -1,4 +1,5 @@
 ﻿using FitnessTrackingSystem.Core.Models.Challenge;
+using FitnessTrackingSystem.Core.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
