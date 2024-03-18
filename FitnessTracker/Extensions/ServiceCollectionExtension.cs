@@ -1,4 +1,7 @@
-﻿using FitnessTrackingSystem.Infrastructure.Data;
+﻿using FitnessTrackingSystem.Core.Contracts.Challenge;
+using FitnessTrackingSystem.Core.Services.Challenge;
+using FitnessTrackingSystem.Infrastructure.Data;
+using FitnessTrackingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IChallengeService, ChallengeService>();
+
             return services;
         }
 
@@ -21,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.EnableSensitiveDataLogging();
             });
 
-
+            services.AddScoped<IRepository,Repository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -85,5 +85,27 @@ namespace FitnessTrackingSystem.Controllers
         {
             return RedirectToAction(nameof(Mine));
         }
+
+        [HttpPost("Upload")]
+        public async Task<IActionResult> Upload(List<IFormFile> files)
+        {
+            string path = Path.Combine(Environment.CurrentDirectory,"Files"); 
+
+            foreach (var file in files.Where(f => f.Length > 0))
+            {
+                string fileName = Path.Combine(path,file.Name);
+
+                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            } 
+
+            return Ok(
+                new
+                {
+                    savedFileLength= files.Sum(f => f.Length)
+                });
+        }
     }
 }
