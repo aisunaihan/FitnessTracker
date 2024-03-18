@@ -9,6 +9,6 @@ namespace FitnessTrackingSystem.Core.Contracts
 {
     public interface IChallengeService
     {
-        Task<IEnumerable<ChallengeIndexServiceModel>> LastThreeChallenges();
+        Task<IEnumerable<ChallengeIndexServiceModel>> LastThreeChallengesAsync();
     }
 }

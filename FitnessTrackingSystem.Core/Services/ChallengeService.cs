@@ -14,7 +14,7 @@ namespace FitnessTrackingSystem.Core.Services
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<ChallengeIndexServiceModel>> LastThreeChallenges()
+        public async Task<IEnumerable<ChallengeIndexServiceModel>> LastThreeChallengesAsync()
         {
             return await repository
                 .AllReadOnly<Infrastructure.Data.Models.Challenge>()

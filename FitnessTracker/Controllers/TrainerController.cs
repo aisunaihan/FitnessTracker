@@ -1,6 +1,7 @@
 ﻿using FitnessTrackingSystem.Core.Contracts;
 using FitnessTrackingSystem.Core.Models.Challenge;
 using FitnessTrackingSystem.Core.Models.Trainer;
+using FitnessTrackingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,13 @@ namespace FitnessTrackingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Become()
         {
+            if (await trainerService.ExistsByIdAsync(User.Id()))
+            {
+                return BadRequest();
+            }
+
             var model=new BecomeTrainerFormModel();
+
             return View(model);
         }
 

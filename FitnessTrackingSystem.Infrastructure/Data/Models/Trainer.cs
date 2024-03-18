@@ -2,9 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FitnessTrackingSystem.Infrastructure.Data.DataConstants;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackingSystem.Infrastructure.Data.Models
 {
+    [Index(nameof(PhoneNumber),IsUnique =true)]
     public class Trainer
     {
         [Key]

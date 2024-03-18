@@ -23,7 +23,7 @@ namespace FitnessTracker.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var model = await challengeService.LastThreeChallenges();
+            var model = await challengeService.LastThreeChallengesAsync();
             return  View(model);
         }
 
