@@ -17,6 +17,8 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         [MaxLength(ChallengeDataConstants.MaxChallengeDescriptionLength)]
         public string Description { get; set; } = string.Empty;
 
+        public string VideoUrl { get; set; } = string.Empty;
+
         [Required]
         [Range(
             ChallengeDataConstants.MaxChallengeDuration,
