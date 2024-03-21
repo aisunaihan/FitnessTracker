@@ -87,24 +87,24 @@ namespace FitnessTrackingSystem.Controllers
         }
 
         [HttpPost("Upload")]
-        public async Task<IActionResult> Upload(List<IFormFile> files)
+        public async Task<IActionResult> Upload(IEnumerable<IFormFile> files)
         {
-            string path = Path.Combine(Environment.CurrentDirectory,"Files"); 
-
+            string path = Path.Combine(Environment.CurrentDirectory,"CFiles"); 
+ 
             foreach (var file in files.Where(f => f.Length > 0))
             {
-                string fileName = Path.Combine(path,file.Name);
+                string fileName = Path.Combine(path,file.FileName);
 
-                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                using (var stream = new FileStream(fileName, FileMode.Create))
                 {
-                    await file.CopyToAsync(fileStream);
+                    await file.CopyToAsync(stream);
                 }
             } 
 
             return Ok(
-                new
-                {
-                    savedFileLength= files.Sum(f => f.Length)
+                new 
+                { 
+                    savedFilesLength = files.Sum(f=>f.Length)
                 });
         }
     }
