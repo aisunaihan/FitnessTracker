@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar{
+    background-color:darkred;
+}
+
+.navbar-brand{
+    font-weight:bold;
+}
+
+
+
+
