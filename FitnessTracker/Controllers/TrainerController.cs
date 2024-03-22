@@ -29,9 +29,18 @@ namespace FitnessTrackingSystem.Controllers
 
         [HttpPost]
         [NotATrainer]
-        public async Task<IActionResult> Become(BecomeTrainerFormModel model)
+        public async Task<IActionResult> Become(BecomeTrainerFormModel model,IFormFile picture)
         {
-            if(await trainerService.UserWithPhoneNumberExistsAsync(model.PhoneNumber))
+            string path = Path.Combine(Environment.CurrentDirectory, "Files/Images");
+
+            string fileName = Path.Combine(path, picture.FileName);
+
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            {
+                await picture.CopyToAsync(stream);
+            }
+
+            if (await trainerService.UserWithPhoneNumberExistsAsync(model.PhoneNumber))
             {
                 ModelState.AddModelError(nameof(model.PhoneNumber),ErrorMessages.PhoneExists);
             }
@@ -41,7 +50,7 @@ namespace FitnessTrackingSystem.Controllers
                 return View(model);
             }
 
-            await trainerService.CreateAsync(User.Id(),model.FullName,model.PhoneNumber,model.ImageUrl);
+            await trainerService.CreateAsync(User.Id(),model.FullName,model.PhoneNumber,fileName);
 
             return RedirectToAction(nameof(ChallengeController.All), "Challenge");
         }

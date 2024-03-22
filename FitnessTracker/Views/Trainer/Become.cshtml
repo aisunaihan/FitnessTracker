@@ -3,5 +3,22 @@
     ViewData["Title"] = "Become Trainer";
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
+<form asp-action="Become" enctype="multipart/form-data" asp-controller="Trainer" method="post">
+    <div class="mb-3">
+        <label>Upload a profile picture</label>
+        <input type="file" name="picture">
+    </div>
+    <div class="mb-3">
+        <input asp-for="@Model.FullName" placeholder="Full name" class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <input asp-for="@Model.PhoneNumber" placeholder="Phone number"  class="form-control" aria-required="true" />
+        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <textarea asp-for="@Model.Biography" placeholder="Biography" class="form-control" aria-required="true" rows="5"></textarea>
+        <span asp-validation-for="@Model.Biography" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

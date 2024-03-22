@@ -29,7 +29,6 @@ namespace FitnessTrackingSystem.Core.Models.Trainer
             ErrorMessage = ErrorMessages.LengthMessage)]
         [Display(Name = "Biography")]
         public string Biography {  get; set; } = string.Empty;  
-        public string ImageUrl { get; set; } = string.Empty;
 
     }
 }
