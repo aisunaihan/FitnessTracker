@@ -19,9 +19,17 @@ namespace FitnessTrackingSystem.Core.Services
             repository = _repository;
         }
 
-        public Task CreateAsync(string userId, string phoneNumber)
+        public async Task CreateAsync(string userId,string fullName, string phoneNumber, string imageUrl)
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Trainer()
+            {
+                UserId= userId,
+                FullName= fullName,
+                PhoneNumber= phoneNumber,
+                ImageUrl= imageUrl
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsByIdAsync(string userId)
@@ -30,9 +38,10 @@ namespace FitnessTrackingSystem.Core.Services
                 .AnyAsync(t=>t.UserId == userId);   
         }
 
-        public Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
+        public async Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Trainer>()
+                .AnyAsync (t=>t.PhoneNumber == phoneNumber);
         }
     }
 }
