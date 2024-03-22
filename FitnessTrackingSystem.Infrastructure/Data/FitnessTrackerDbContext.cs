@@ -1,13 +1,7 @@
-﻿using FitnessTrackingSystem.Infrastructure.Data.DataConstants;
-using FitnessTrackingSystem.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using FitnessTrackingSystem.Infrastructure.Data.Models;
+using FitnessTrackingSystem.Infrastructure.Data.SeedDb;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection.Emit;
-using System.Xml.Linq;
-using FitnessTrackingSystem.Infrastructure.Data.SeedDb;
 
 namespace FitnessTrackingSystem.Infrastructure.Data
 {
