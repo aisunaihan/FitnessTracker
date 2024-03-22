@@ -90,7 +90,7 @@ namespace FitnessTrackingSystem.Controllers
         [HttpPost("Upload")]
         public async Task<IActionResult> Upload(IEnumerable<IFormFile> files)
         {
-            string path = Path.Combine(Environment.CurrentDirectory,"Files"); 
+            string path = Path.Combine(Environment.CurrentDirectory,"Files/Videos"); 
 
             foreach (var file in files.Where(f => f.Length > 0))
             {

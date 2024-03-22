@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\" />
+    <Folder Include="Files\Images\" />
+    <Folder Include="Files\Videos\" />
   </ItemGroup>
 
 </Project>
