@@ -54,6 +54,7 @@ namespace FitnessTrackingSystem.Infrastructure.Data.SeedDb
             {
                 Id = 1,
                 FullName = "Mariah Wellson",
+                Biography="I am a fitness trainer.",
                 PhoneNumber = "+359888888888",
                 UserId = TrainerUser.Id,
                 ImageUrl = "",

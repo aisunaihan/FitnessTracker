@@ -17,6 +17,10 @@ namespace FitnessTrackingSystem.Infrastructure.Data.Models
         public string FullName { get; set; } = string.Empty;
 
         [Required]
+        [MaxLength(TrainerDataConstants.MaxTrainerBioLength)]
+        public string Biography { get; set; } = string.Empty;
+
+        [Required]
         [MaxLength(TrainerDataConstants.MaxTrainerPhoneNumLength)]
         public string PhoneNumber { get; set; } = string.Empty;
 
