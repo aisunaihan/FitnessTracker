@@ -1,4 +1,4 @@
-namespace FitnessTracker.Models
+namespace FitnessTrackingSystem.Models
 {
     public class ErrorViewModel
     {

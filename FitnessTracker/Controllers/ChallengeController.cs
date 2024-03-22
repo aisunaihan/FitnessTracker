@@ -2,6 +2,7 @@
 using FitnessTrackingSystem.Core.Models.Trainer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.ConstrainedExecution;
 
 namespace FitnessTrackingSystem.Controllers
 {
@@ -89,8 +90,8 @@ namespace FitnessTrackingSystem.Controllers
         [HttpPost("Upload")]
         public async Task<IActionResult> Upload(IEnumerable<IFormFile> files)
         {
-            string path = Path.Combine(Environment.CurrentDirectory,"CFiles"); 
- 
+            string path = Path.Combine(Environment.CurrentDirectory,"Files"); 
+
             foreach (var file in files.Where(f => f.Length > 0))
             {
                 string fileName = Path.Combine(path,file.FileName);
@@ -99,7 +100,8 @@ namespace FitnessTrackingSystem.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-            } 
+            }
+
 
             return Ok(
                 new 

@@ -5,7 +5,7 @@ using FitnessTrackingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace FitnessTrackingSystem.Extensions
 {
     public static class ServiceCollectionExtension
     {
@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,IConfiguration config)
+        public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
 
@@ -27,23 +27,23 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<IRepository,Repository>();
+            services.AddScoped<IRepository, Repository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             return services;
         }
 
-        public static IServiceCollection AddApplicationIdentity(this IServiceCollection services,IConfiguration config)
+        public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
             services
                 .AddDefaultIdentity<IdentityUser>(options =>
                 {
-                      options.SignIn.RequireConfirmedAccount = false;
-                      options.Password.RequireDigit = true;
-                      options.Password.RequiredLength = 8;
-                      options.Password.RequireUppercase = true;
-                      options.Password.RequireLowercase = true;
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
                 })
                 .AddEntityFrameworkStores<FitnessTrackerDbContext>();
 

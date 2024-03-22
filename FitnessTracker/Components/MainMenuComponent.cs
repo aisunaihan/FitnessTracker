@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FitnessTracker.Components
+namespace FitnessTrackingSystem.Components
 {
     public class MainMenuComponent : ViewComponent
     {
