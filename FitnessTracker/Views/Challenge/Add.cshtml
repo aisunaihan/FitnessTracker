@@ -6,6 +6,12 @@
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
 
+<partial name="_ChallengeFormPartial" model="@Model" />
+
+@section Scripts{
+    <partial name="_ValidationScriptPartial" />
+}
+
 <form method="post" enctype="multipart/form-data" asp-controller="Challenge" asp-action="Upload">
     <input type="file" name="files">
     <button type="submit">Upload</button> 

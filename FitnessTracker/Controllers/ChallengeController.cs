@@ -1,13 +1,25 @@
-﻿using FitnessTrackingSystem.Core.Models.Challenge;
+﻿using FitnessTrackingSystem.Attributes;
+using FitnessTrackingSystem.Core.Contracts;
+using FitnessTrackingSystem.Core.Models.Challenge;
 using FitnessTrackingSystem.Core.Models.Trainer;
+using FitnessTrackingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.ConstrainedExecution;
 
 namespace FitnessTrackingSystem.Controllers
 {
     public class ChallengeController : BaseController
     {
+        private readonly IChallengeService challengeService;
+
+        private readonly ITrainerService trainerService;
+
+        public ChallengeController(IChallengeService _challengeService, ITrainerService _trainerService)
+        {
+            challengeService = _challengeService;
+            trainerService = _trainerService;
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
@@ -38,14 +50,55 @@ namespace FitnessTrackingSystem.Controllers
 
             return View(model);
         }
-        public IActionResult Add()
+
+        [HttpGet]
+        [AllowTrainerOnly]
+        public async  Task<IActionResult> Add()
         { 
-            return View();
+            if(await trainerService.ExistsByIdAsync(User.Id())==false)
+            {
+                return RedirectToAction(nameof(TrainerController.Become),"Trainer");
+            }
+
+            var model = new ChallengeFormModel()
+            {
+                Categories = await challengeService.AllCategoriesAsync()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(ChallengeFormModel model)
+        [AllowTrainerOnly]
+        public async Task<IActionResult> Add(ChallengeFormModel model,IFormFile video)
         {
+            string path = Path.Combine(Environment.CurrentDirectory, "Files/Videos");
+
+            string fileName = Path.Combine(path, video.FileName);
+
+            using (var stream = new FileStream(fileName, FileMode.Create))
+            {
+                    await video.CopyToAsync(stream);
+            }
+
+            model.VideoUrl = fileName;
+
+            if (await challengeService.CategoryExistsAsync(model.CategoryId)==false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId),"");
+            }
+
+            if(ModelState.IsValid==false)
+            {
+                model.Categories= await challengeService.AllCategoriesAsync();
+
+                return View(model);
+            }
+
+            int? trainerId = await trainerService.GetTrainerIdAsync(User.Id());
+
+            int newChallengeId = await challengeService.CreateAsync(model,trainerId ?? 0);
+
             return RedirectToAction(nameof(Details), new { id = 1 });
         }
 
