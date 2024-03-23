@@ -38,6 +38,12 @@ namespace FitnessTrackingSystem.Core.Services
                 .AnyAsync(t=>t.UserId == userId);   
         }
 
+        public async Task<int?> GetTrainerIdAsync(string userId)
+        {
+            return (await repository.AllReadOnly<Trainer>()
+                .FirstOrDefaultAsync(t=>t.UserId == userId))?.Id;
+        }
+
         public async Task<bool> UserWithPhoneNumberExistsAsync(string phoneNumber)
         {
             return await repository.AllReadOnly<Trainer>()
